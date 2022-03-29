@@ -71,3 +71,25 @@ ENTRA en primera iteración
    indexOf/includes. peliAdivinar.forEach((letra, index)=>) y para cada letra que sea igual 
     a la letra que ha pulsado el usuario, substituir la guessedWord[index] = letra 
    2.2. Actualizar el DOM (parte de la película adivinada hasta el momento.
+
+
+
+    + Llevar registro visual y de estado de las letras probadas.
+  + nueva variable estado: checkedLetters = []
+  + Cada vez que recibo una letra
+      + Si esta letra ya se está en checkedLetter
+         + No está: la añadimos
+      + Vaciar el innerHTML de id="letters-tried"
+      + Hay que poner todas las teclas de checkedLetters , en id="letters-tried" poner
+        tantos <span> como letras en checkedLetters
+
++ Gestionar el número de intentos
+    + nueva variable de estado: attempts = 5
+    + Buscar un sitio adecuado en el DOM para mostrar el número de intentos
+    + Cada vez que recibo una letra
+         + Si esta letra ya está en checkedLetters O NO está en la película a adivinar
+            + attempts--
+            + Actualizar el DOM
+            + comprobar si el jugador ya ha perdido (attempts == 0)
+                 + Mensaje de derrota
+                 + Impedir que el usuario siga pulsando teclas

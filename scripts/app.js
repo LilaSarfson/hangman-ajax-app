@@ -3,9 +3,15 @@
 // Obtener las películas de
 // https://github.com/hjorturlarsen/IMDB-top-100/blob/master/data/movies.json
 
+//ESTADO
 let peliculaAdivinar = "inside out";
 let movieGuess = peliculaAdivinar.replaceAll(/[a-zA-z]/g, "*");
-let Trys = 5;
+let attempts = 5;
+let checkedLetters = [];
+let finishGame = 0;
+// Estoy jugando : 0
+// Gané: 1
+//Perdí: -1
 
 for (let index = 0; index < movieGuess.length; index++) {
     const letras = movieGuess[index];
@@ -22,18 +28,31 @@ let lettersTried = document.querySelector("#letters-tried");
 
 window.addEventListener("keypress", function (e) {
 
+    if (attempts == 0) {
+        return;
+    }
+
     let keypress = e.key;
+    let message = document.querySelector("#guesses");
+
+    message.textContent = `Te quedan ${attempts} intentos `;
+
     if (!/^[a-z]$/i.test(keypress)) {
         // esto no es una letra de la a la z
         return;
     }
-    let asterisco = document.createElement("span");
-    if (keypress != asterisco.textContent) {
-        asterisco.textContent = keypress;
+
+
+    if (checkedLetters.includes(keypress)) {
+
+    }
+    else {
+        checkedLetters.push(keypress);
+        let asterisco = document.createElement("span");
+        asterisco.textContent = checkedLetters[checkedLetters.length - 1];
         lettersTried.appendChild(asterisco);
     }
 
-    console.log("funciono");
 
     for (let index = 0; index < peliculaAdivinar.length; index++) {
         const letras = peliculaAdivinar[index];
@@ -41,13 +60,9 @@ window.addEventListener("keypress", function (e) {
             movieGuess = movieGuess.slice(0, index) + keypress + movieGuess.slice(index + 1);
             console.log(movieGuess);
         }
-        else {
-            Trys--;
-        }
     }
     document.querySelector("#puzzle").innerHTML = "";
 
-    //No acabo de entender muy bien cómo y en qué orden se ejecuta.
     for (let index = 0; index < movieGuess.length; index++) {
         const letras = movieGuess[index];
 
@@ -57,6 +72,14 @@ window.addEventListener("keypress", function (e) {
         puzzle.appendChild(asterisco);
 
     }
+
+    if (!peliculaAdivinar.includes(keypress) && attempts > 0) {
+        attempts--;
+    }
+    if (attempts == 0) {
+        message.textContent = "Has perdido!!"
+    }
+
 });
 
 
